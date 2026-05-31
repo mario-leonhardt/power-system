@@ -27,6 +27,67 @@
   .progress-bar { height: 3px; background: var(--warm); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
   .progress-fill { height: 100%; background: var(--accent-mid); border-radius: 2px; transition: width 0.4s ease; }
   .progress-text { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.1em; }
+  .tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--rule); }
+  .tab { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 16px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Notes */
+  .notes-wrap { margin-top: 1.5rem; }
+  .notes-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .notes-textarea { width: 100%; background: #fff; border: 0.5px solid var(--rule); border-radius: 10px; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; color: var(--ink); line-height: 1.7; resize: vertical; min-height: 100px; outline: none; transition: border-color 0.2s; }
+  .notes-textarea:focus { border-color: var(--accent-mid); }
+  .notes-textarea::placeholder { color: var(--rule); }
+
+  /* History */
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .stat-card { background: #fff; border: 0.5px solid var(--rule); border-radius: 10px; padding: 14px; text-align: center; }
+  .stat-val { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--accent); }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+  .history-day-labels { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 8px; }
+  .day-label-h { font-family: 'DM Mono', monospace; font-size: 9px; text-align: center; color: var(--muted); letter-spacing: 0.05em; }
+  .history-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 1rem; }
+  .history-day { aspect-ratio: 1; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; position: relative; transition: transform 0.15s; }
+  .history-day:hover { transform: scale(1.08); }
+  .history-day.empty { background: transparent; cursor: default; pointer-events: none; }
+  .history-day.empty:hover { transform: none; }
+  .history-day.no-data { background: var(--warm); border: 0.5px solid var(--rule); }
+  .history-day.partial { background: #c8e6a0; border: 0.5px solid #a8cc80; }
+  .history-day.complete { background: var(--green); border: 0.5px solid var(--green); }
+  .history-day.today { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .history-day-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .history-day.complete .history-day-num { color: white; }
+  .history-day.partial .history-day-num { color: var(--green); }
+  .history-day-pct { font-size: 9px; color: var(--muted); }
+  .history-day.complete .history-day-pct { color: rgba(255,255,255,0.8); }
+  .history-legend { display: flex; gap: 16px; margin-bottom: 1.5rem; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* Day detail modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; padding: 2rem 1rem; overflow-y: auto; }
+  .modal-overlay.visible { display: flex; align-items: flex-start; justify-content: center; }
+  .modal { background: var(--bg); max-width: 580px; width: 100%; border-radius: 14px; padding: 1.5rem; position: relative; margin: auto; }
+  .modal-close { position: absolute; top: 14px; right: 14px; background: none; border: 0.5px solid var(--rule); border-radius: 6px; width: 28px; height: 28px; cursor: pointer; font-size: 14px; color: var(--muted); display: flex; align-items: center; justify-content: center; }
+  .modal-close:hover { background: var(--warm); }
+  .modal-date { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 1rem; }
+  .modal-progress { height: 3px; background: var(--warm); border-radius: 2px; margin-bottom: 1rem; overflow: hidden; }
+  .modal-progress-fill { height: 100%; border-radius: 2px; }
+  .modal-tasks { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+  .modal-task { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #fff; border: 0.5px solid var(--rule); border-radius: 8px; }
+  .modal-task.done { background: var(--green-light); border-color: #b3d48a; }
+  .modal-task-check { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--rule); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+  .modal-task.done .modal-task-check { background: var(--green); border-color: var(--green); color: white; }
+  .modal-task-name { font-size: 13px; color: var(--ink); }
+  .modal-task.done .modal-task-name { text-decoration: line-through; color: var(--green); }
+  .modal-calls { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); margin-bottom: 1rem; }
+  .modal-notes { width: 100%; background: var(--warm); border: 0.5px solid var(--rule); border-radius: 8px; padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); line-height: 1.6; min-height: 80px; resize: vertical; outline: none; }
+  .modal-notes:focus { border-color: var(--accent-mid); }
+  .modal-notes-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+
+  /* Tasks */
   .time-block { margin-bottom: 1.75rem; }
   .time-header { display: flex; align-items: center; gap: 12px; margin-bottom: 0.75rem; }
   .time-badge { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; flex-shrink: 0; }
@@ -85,122 +146,128 @@
     </div>
   </div>
 
-  <!-- 06–10 MORGEN -->
-  <div class="time-block">
-    <div class="time-header">
-      <span class="time-badge badge-morning">06:00 – 10:00</span>
-      <div><div class="time-title">Morgen — Deep Work</div><div class="time-subtitle">Morgenritual → alles Schreiben in einem Fluss</div></div>
-    </div>
-    <div class="task" id="task-morgenritual" onclick="toggleTask('morgenritual')"><div class="task-check" id="check-morgenritual"></div><div class="task-content"><div class="task-title">Morgenritual abgeschlossen</div><div class="task-desc">Nordstern. Führungsfrage. Intention für den Tag.</div></div></div>
-    <div class="task" id="task-essay" onclick="toggleTask('essay')"><div class="task-check" id="check-essay"></div><div class="task-content"><div class="task-title">Essay / Post geschrieben</div><div class="task-desc" id="essay-desc">Montags: wöchentliches Essay. Andere Tage: Post destillieren.</div></div></div>
-    <div class="task" id="task-stephen" onclick="toggleTask('stephen')"><div class="task-check" id="check-stephen"></div><div class="task-content"><div class="task-title">Sir Stephen & Me</div><div class="task-desc">Eine Szene, ein Satz, eine Idee — fortlaufend weiter.</div></div></div>
-    <div class="task" id="task-comedy" onclick="toggleTask('comedy')"><div class="task-check" id="check-comedy"></div><div class="task-content"><div class="task-title">Comedy</div><div class="task-desc">Ein Gedanke, ein Dialog, eine Beobachtung aus dem Alltag.</div></div></div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('today')">Heute</div>
+    <div class="tab" onclick="switchTab('history')">Verlauf</div>
   </div>
 
-  <hr>
+  <!-- TODAY -->
+  <div class="tab-content active" id="tab-today">
 
-  <!-- 10–12 CALLS -->
-  <div class="time-block">
-    <div class="time-header">
-      <span class="time-badge badge-calls">10:00 – 12:00</span>
-      <div><div class="time-title">Calls — Pipeline</div><div class="time-subtitle">5–20 Calls täglich je nach Pipeline</div></div>
+    <div class="time-block">
+      <div class="time-header"><span class="time-badge badge-morning">06:00 – 10:00</span><div><div class="time-title">Morgen — Deep Work</div><div class="time-subtitle">Morgenritual → alles Schreiben in einem Fluss</div></div></div>
+      <div class="task" id="task-morgenritual" onclick="toggleTask('morgenritual')"><div class="task-check" id="check-morgenritual"></div><div class="task-content"><div class="task-title">Morgenritual abgeschlossen</div><div class="task-desc">Nordstern. Führungsfrage. Intention für den Tag.</div></div></div>
+      <div class="task" id="task-essay" onclick="toggleTask('essay')"><div class="task-check" id="check-essay"></div><div class="task-content"><div class="task-title">Essay / Post geschrieben</div><div class="task-desc" id="essay-desc">Montags: wöchentliches Essay. Andere Tage: Post destillieren.</div></div></div>
+      <div class="task" id="task-stephen" onclick="toggleTask('stephen')"><div class="task-check" id="check-stephen"></div><div class="task-content"><div class="task-title">Sir Stephen & Me</div><div class="task-desc">Eine Szene, ein Satz, eine Idee — fortlaufend weiter.</div></div></div>
+      <div class="task" id="task-comedy" onclick="toggleTask('comedy')"><div class="task-check" id="check-comedy"></div><div class="task-content"><div class="task-title">Comedy</div><div class="task-desc">Ein Gedanke, ein Dialog, eine Beobachtung aus dem Alltag.</div></div></div>
     </div>
-    <div class="task" id="task-calls" style="cursor:default;">
-      <div class="task-check" id="check-calls" style="cursor:pointer;" onclick="event.stopPropagation();toggleTask('calls')"></div>
-      <div class="task-content">
-        <div class="task-title" style="cursor:pointer;" onclick="toggleTask('calls')">Tagesziel erreicht</div>
-        <div class="task-desc">Zähle deine Calls mit.</div>
-        <div class="task-counter">
-          <button class="counter-btn" onclick="event.stopPropagation();changeCounter(-1)">−</button>
-          <div class="counter-val" id="callCount">0</div>
-          <div class="counter-target">/ <span id="callTarget">10</span></div>
-          <div class="counter-bar"><div class="counter-fill" id="callFill" style="width:0%"></div></div>
-          <button class="counter-btn" onclick="event.stopPropagation();changeCounter(1)">+</button>
+    <hr>
+    <div class="time-block">
+      <div class="time-header"><span class="time-badge badge-calls">10:00 – 12:00</span><div><div class="time-title">Calls — Pipeline</div><div class="time-subtitle">5–20 Calls täglich je nach Pipeline</div></div></div>
+      <div class="task" id="task-calls" style="cursor:default;">
+        <div class="task-check" id="check-calls" style="cursor:pointer;" onclick="event.stopPropagation();toggleTask('calls')"></div>
+        <div class="task-content">
+          <div class="task-title" style="cursor:pointer;" onclick="toggleTask('calls')">Tagesziel erreicht</div>
+          <div class="task-desc">Zähle deine Calls mit.</div>
+          <div class="task-counter">
+            <button class="counter-btn" onclick="event.stopPropagation();changeCounter(-1)">−</button>
+            <div class="counter-val" id="callCount">0</div>
+            <div class="counter-target">/ <span id="callTarget">10</span></div>
+            <div class="counter-bar"><div class="counter-fill" id="callFill" style="width:0%"></div></div>
+            <button class="counter-btn" onclick="event.stopPropagation();changeCounter(1)">+</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <hr>
-
-  <!-- 12:00 MAILS -->
-  <div class="time-block">
-    <div class="time-header">
-      <span class="time-badge badge-mail">12:00</span>
-      <div><div class="time-title">Mails — Mittag</div><div class="time-subtitle">Einmal täglich Posteingang leeren</div></div>
+    <hr>
+    <div class="time-block">
+      <div class="time-header"><span class="time-badge badge-mail">12:00</span><div><div class="time-title">Mails — Mittag</div><div class="time-subtitle">Einmal täglich Posteingang leeren</div></div></div>
+      <div class="task" id="task-mail-mittag" onclick="toggleTask('mail-mittag')"><div class="task-check" id="check-mail-mittag"></div><div class="task-content"><div class="task-title">Mails gelesen & beantwortet</div><div class="task-desc">Wichtiges beantworten, Rest löschen oder archivieren.</div></div></div>
     </div>
-    <div class="task" id="task-mail-mittag" onclick="toggleTask('mail-mittag')"><div class="task-check" id="check-mail-mittag"></div><div class="task-content"><div class="task-title">Mails gelesen & beantwortet</div><div class="task-desc">Wichtiges beantworten, Rest löschen oder archivieren.</div></div></div>
-  </div>
-
-  <hr>
-
-  <!-- 12–14 RE-CREATION -->
-  <div class="time-block">
-    <div class="time-header">
-      <span class="time-badge badge-recreation">12:00 – 14:00</span>
-      <div><div class="time-title">Re-Creation</div><div class="time-subtitle">Kein Bildschirm. Energie für den Nachmittag.</div></div>
+    <hr>
+    <div class="time-block">
+      <div class="time-header"><span class="time-badge badge-recreation">12:00 – 14:00</span><div><div class="time-title">Re-Creation</div><div class="time-subtitle">Kein Bildschirm. Energie für den Nachmittag.</div></div></div>
+      <div class="task" id="task-fitness" onclick="toggleTask('fitness')"><div class="task-check" id="check-fitness"></div><div class="task-content"><div class="task-title">Fitness — außer Atem kommen</div><div class="task-desc">Einfache Übungen. Intensiv genug dass du merkst du lebst.</div></div></div>
+      <div class="task" id="task-spaziergang" onclick="toggleTask('spaziergang')"><div class="task-check" id="check-spaziergang"></div><div class="task-content"><div class="task-title">Spaziergang & Essen</div><div class="task-desc">Bewegen, denken, auftanken.</div></div></div>
     </div>
-    <div class="task" id="task-fitness" onclick="toggleTask('fitness')"><div class="task-check" id="check-fitness"></div><div class="task-content"><div class="task-title">Fitness — außer Atem kommen</div><div class="task-desc">Einfache Übungen. Intensiv genug dass du merkst du lebst.</div></div></div>
-    <div class="task" id="task-spaziergang" onclick="toggleTask('spaziergang')"><div class="task-check" id="check-spaziergang"></div><div class="task-content"><div class="task-title">Spaziergang & Essen</div><div class="task-desc">Bewegen, denken, auftanken.</div></div></div>
-  </div>
-
-  <hr>
-
-  <!-- 14–17 PROSPECTING -->
-  <div class="time-block">
-    <div class="time-header">
-      <span class="time-badge badge-prospecting">14:00 – 17:00</span>
-      <div><div class="time-title">Prospecting — Beziehungen aufbauen</div><div class="time-subtitle">2 Stunden LinkedIn. Gezielt. Täglich.</div></div>
-    </div>
-    <div class="task" id="task-suche" style="cursor:default;">
-      <div class="task-check" id="check-suche" style="cursor:pointer;" onclick="event.stopPropagation();toggleTask('suche')"></div>
-      <div class="task-content">
-        <div class="task-title" style="cursor:pointer;" onclick="event.stopPropagation();toggleTask('suche')">2h Suche & Kommentare erledigt</div>
-        <div class="task-desc">Gezielt nach Entscheidern in deinen Zielbranchen suchen.</div>
-        <div class="branchen-grid">
-          <div class="branche-tag" id="b1" onclick="event.stopPropagation();searchBranche('Schweizer Privatbank Wealth Management','b1')">🏦 Schweizer Privatbanken</div>
-          <div class="branche-tag" id="b2" onclick="event.stopPropagation();searchBranche('B2B Mittelstand CMO Marketing Leiter Deutschland Schweiz','b2')">🏭 B2B Mittelstand DE/CH</div>
-          <div class="branche-tag" id="b3" onclick="event.stopPropagation();searchBranche('Porsche Consulting Roland Berger Kommunikation Marketing','b3')">📊 Consulting</div>
-          <div class="branche-tag" id="b4" onclick="event.stopPropagation();searchBranche('Leasing Finanzdienstleister Geschäftsführer','b4')">💼 Leasing & Finance</div>
-          <div class="branche-tag" id="b5" onclick="event.stopPropagation();searchBranche('Employer Branding HR Leiter Unternehmen','b5')">👥 Employer Branding</div>
-          <div class="branche-tag" id="b6" onclick="event.stopPropagation();searchBranche('Creator Economy LinkedIn Deutschland Schweiz','b6')">🎯 Creator Economy</div>
+    <hr>
+    <div class="time-block">
+      <div class="time-header"><span class="time-badge badge-prospecting">14:00 – 17:00</span><div><div class="time-title">Prospecting — Beziehungen aufbauen</div><div class="time-subtitle">2 Stunden LinkedIn. Gezielt. Täglich.</div></div></div>
+      <div class="task" id="task-suche" style="cursor:default;">
+        <div class="task-check" id="check-suche" style="cursor:pointer;" onclick="event.stopPropagation();toggleTask('suche')"></div>
+        <div class="task-content">
+          <div class="task-title" style="cursor:pointer;" onclick="event.stopPropagation();toggleTask('suche')">2h Suche & Kommentare erledigt</div>
+          <div class="task-desc">Gezielt nach Entscheidern in deinen Zielbranchen suchen.</div>
+          <div class="branchen-grid">
+            <div class="branche-tag" id="b1" onclick="event.stopPropagation();searchBranche('Schweizer Privatbank Wealth Management','b1')">🏦 Schweizer Privatbanken</div>
+            <div class="branche-tag" id="b2" onclick="event.stopPropagation();searchBranche('B2B Mittelstand CMO Marketing Leiter Deutschland Schweiz','b2')">🏭 B2B Mittelstand DE/CH</div>
+            <div class="branche-tag" id="b3" onclick="event.stopPropagation();searchBranche('Porsche Consulting Roland Berger Kommunikation Marketing','b3')">📊 Consulting</div>
+            <div class="branche-tag" id="b4" onclick="event.stopPropagation();searchBranche('Leasing Finanzdienstleister Geschäftsführer','b4')">💼 Leasing & Finance</div>
+            <div class="branche-tag" id="b5" onclick="event.stopPropagation();searchBranche('Employer Branding HR Leiter Unternehmen','b5')">👥 Employer Branding</div>
+            <div class="branche-tag" id="b6" onclick="event.stopPropagation();searchBranche('Creator Economy LinkedIn Deutschland Schweiz','b6')">🎯 Creator Economy</div>
+          </div>
         </div>
       </div>
+      <div class="task" id="task-kommentar" onclick="toggleTask('kommentar')"><div class="task-check" id="check-kommentar"></div><div class="task-content"><div class="task-title">3 strategische Kommentare</div><div class="task-desc">Bei Zielkontakten — inhaltlich, nicht lobend.</div></div></div>
+      <div class="task" id="task-vernetzung" onclick="toggleTask('vernetzung')"><div class="task-check" id="check-vernetzung"></div><div class="task-content"><div class="task-title">5 Vernetzungsanfragen</div><div class="task-desc">Personalisiert — unter 200 Zeichen.</div></div></div>
     </div>
-    <div class="task" id="task-kommentar" onclick="toggleTask('kommentar')"><div class="task-check" id="check-kommentar"></div><div class="task-content"><div class="task-title">3 strategische Kommentare</div><div class="task-desc">Bei Zielkontakten — inhaltlich, nicht lobend.</div></div></div>
-    <div class="task" id="task-vernetzung" onclick="toggleTask('vernetzung')"><div class="task-check" id="check-vernetzung"></div><div class="task-content"><div class="task-title">5 Vernetzungsanfragen</div><div class="task-desc">Personalisiert — unter 200 Zeichen.</div></div></div>
-  </div>
-
-  <hr>
-
-  <!-- ABEND MAILS -->
-  <div class="time-block">
-    <div class="time-header">
-      <span class="time-badge badge-mail">18:00</span>
-      <div><div class="time-title">Mails — Abend</div><div class="time-subtitle">Letzter Check bevor du abschaltest</div></div>
+    <hr>
+    <div class="time-block">
+      <div class="time-header"><span class="time-badge badge-mail">18:00</span><div><div class="time-title">Mails — Abend</div><div class="time-subtitle">Letzter Check bevor du abschaltest</div></div></div>
+      <div class="task" id="task-mail-abend" onclick="toggleTask('mail-abend')"><div class="task-check" id="check-mail-abend"></div><div class="task-content"><div class="task-title">Abend-Mails erledigt</div><div class="task-desc">Letzter Check. Dann Postfach zu.</div></div></div>
     </div>
-    <div class="task" id="task-mail-abend" onclick="toggleTask('mail-abend')"><div class="task-check" id="check-mail-abend"></div><div class="task-content"><div class="task-title">Abend-Mails erledigt</div><div class="task-desc">Letzter Check. Dann Postfach zu.</div></div></div>
-  </div>
-
-  <hr>
-
-  <!-- AB 18:00 ABSCHALTEN -->
-  <div class="time-block">
-    <div class="time-header">
-      <span class="time-badge badge-evening">Ab 18:00</span>
-      <div><div class="time-title">Abschalten</div><div class="time-subtitle">Lesen. Spaziergang. Ideen kommen von selbst.</div></div>
+    <hr>
+    <div class="time-block">
+      <div class="time-header"><span class="time-badge badge-evening">Ab 18:00</span><div><div class="time-title">Abschalten</div><div class="time-subtitle">Lesen. Spaziergang. Ideen kommen von selbst.</div></div></div>
+      <div class="task" id="task-abschalten" onclick="toggleTask('abschalten')"><div class="task-check" id="check-abschalten"></div><div class="task-content"><div class="task-title">Bildschirm aus — Tag abgeschlossen</div><div class="task-desc">Kein LinkedIn. Kein E-Mail. Das Unterbewusstsein arbeitet weiter.</div></div></div>
     </div>
-    <div class="task" id="task-abschalten" onclick="toggleTask('abschalten')"><div class="task-check" id="check-abschalten"></div><div class="task-content"><div class="task-title">Bildschirm aus — Tag abgeschlossen</div><div class="task-desc">Kein LinkedIn. Kein E-Mail. Das Unterbewusstsein arbeitet weiter.</div></div></div>
+
+    <!-- Notes for today -->
+    <div class="notes-wrap">
+      <div class="notes-label">Notizen — Gedanken zum Tag</div>
+      <textarea class="notes-textarea" id="todayNotes" placeholder="Was hat heute funktioniert? Was nicht? Welche Idee kam?" oninput="scheduleNotesSave()"></textarea>
+    </div>
+
+    <div class="complete-banner" id="completeBanner">
+      <div class="big">Tag abgeschlossen.</div>
+      <p>Du hast dich heute selbst geführt.<br>Das zählt mehr als jede perfekte Strategie.</p>
+    </div>
   </div>
 
-  <div class="complete-banner" id="completeBanner">
-    <div class="big">Tag abgeschlossen.</div>
-    <p>Du hast dich heute selbst geführt.<br>Das zählt mehr als jede perfekte Strategie.</p>
+  <!-- HISTORY -->
+  <div class="tab-content" id="tab-history">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-val" id="stat-streak">—</div><div class="stat-label">Tage in Folge</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-complete">—</div><div class="stat-label">Vollständige Tage</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-calls">—</div><div class="stat-label">Calls gesamt</div></div>
+    </div>
+    <div class="day-label-h" style="margin-bottom:8px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Letzte 30 Tage — klick auf einen Tag für Details</div>
+    <div class="history-day-labels">
+      <div class="day-label-h">Mo</div><div class="day-label-h">Di</div><div class="day-label-h">Mi</div>
+      <div class="day-label-h">Do</div><div class="day-label-h">Fr</div><div class="day-label-h">Sa</div><div class="day-label-h">So</div>
+    </div>
+    <div class="history-grid" id="historyGrid"></div>
+    <div class="history-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Vollständig</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#c8e6a0"></div>Teilweise</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--warm);border:0.5px solid var(--rule)"></div>Keine Daten</div>
+    </div>
   </div>
 
-  <div class="footer">
-    <span>Leonhardt Partners</span>
-    <span>The Human Content Company</span>
+  <div class="footer"><span>Leonhardt Partners</span><span>The Human Content Company</span></div>
+</div>
+
+<!-- DAY DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div class="modal-date" id="modalDate"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-progress"><div class="modal-progress-fill" id="modalProgressFill"></div></div>
+    <div class="modal-calls" id="modalCalls"></div>
+    <div class="modal-tasks" id="modalTasks"></div>
+    <div class="modal-notes-label">Notizen</div>
+    <textarea class="modal-notes" id="modalNotes" placeholder="Gedanken zu diesem Tag..." oninput="scheduleModalNotesSave()"></textarea>
   </div>
 </div>
 
@@ -209,67 +276,94 @@
   const SUPABASE_KEY = 'sb_publishable_SjQKmTwHwW0LeCwV5hfdtw_xqhUZnJy';
   const TABLE = 'power_system_days';
   const TASKS = ['morgenritual','essay','stephen','comedy','calls','mail-mittag','fitness','spaziergang','suche','kommentar','vernetzung','mail-abend','abschalten'];
+  const TASK_NAMES = {
+    'morgenritual': 'Morgenritual', 'essay': 'Essay / Post', 'stephen': 'Sir Stephen & Me',
+    'comedy': 'Comedy', 'calls': 'Calls Tagesziel', 'mail-mittag': 'Mails Mittag',
+    'fitness': 'Fitness', 'spaziergang': 'Spaziergang & Essen', 'suche': '2h Suche & Kommentare',
+    'kommentar': '3 Kommentare', 'vernetzung': '5 Vernetzungsanfragen',
+    'mail-abend': 'Mails Abend', 'abschalten': 'Abschalten'
+  };
   const CALL_TARGET = 10;
   const todayKey = new Date().toISOString().split('T')[0];
 
-  let state = { day_key: todayKey, done: {}, calls: 0, searched: [] };
+  let state = { day_key: todayKey, done: {}, calls: 0, searched: [], notes: '' };
+  let historyData = [];
   let saveTimeout = null;
+  let notesSaveTimeout = null;
+  let modalDayKey = null;
+  let modalNotesSaveTimeout = null;
 
-  // Init
   document.getElementById('dateLabel').textContent = new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   if (new Date().getDay() === 1) document.getElementById('essay-desc').textContent = 'Heute ist Montag — Essay-Tag. 800–1.500 Wörter. Ein Standpunkt.';
 
   loadFromSupabase();
 
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', ['today','history'][i] === tab));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    if (tab === 'history') renderHistory();
+  }
+
+  async function apiGet(filter) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?${filter}&select=*`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    return res.json();
+  }
+
+  async function apiUpsert(payload) {
+    const check = await apiGet(`day_key=eq.${payload.day_key}`);
+    const method = (check && check.length > 0) ? 'PATCH' : 'POST';
+    const url = method === 'PATCH'
+      ? `${SUPABASE_URL}/rest/v1/${TABLE}?day_key=eq.${payload.day_key}`
+      : `${SUPABASE_URL}/rest/v1/${TABLE}`;
+    await fetch(url, {
+      method,
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ ...payload, updated_at: new Date().toISOString() })
+    });
+  }
+
   async function loadFromSupabase() {
     setStatus('Lade...', '');
     try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?day_key=eq.${todayKey}&select=*`, {
+      const data = await apiGet(`day_key=eq.${todayKey}`);
+      if (data && data.length > 0) {
+        state = { day_key: todayKey, done: data[0].done || {}, calls: data[0].calls || 0, searched: data[0].searched || [], notes: data[0].notes || '' };
+      }
+      document.getElementById('todayNotes').value = state.notes || '';
+
+      const thirtyAgo = new Date();
+      thirtyAgo.setDate(thirtyAgo.getDate() - 30);
+      const fromKey = thirtyAgo.toISOString().split('T')[0];
+      const hRes = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?day_key=gte.${fromKey}&select=day_key,done,calls,notes&order=day_key.asc`, {
         headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
       });
-      const data = await res.json();
-      if (data && data.length > 0) {
-        state = { day_key: todayKey, done: data[0].done || {}, calls: data[0].calls || 0, searched: data[0].searched || [] };
-      }
+      historyData = await hRes.json() || [];
       setStatus('', '');
-    } catch(e) {
-      setStatus('Offline — Daten lokal', '');
-    }
+    } catch(e) { setStatus('Offline', ''); }
     renderAll();
   }
 
   async function saveToSupabase() {
     setStatus('Speichert...', 'saving');
     try {
-      const payload = { day_key: todayKey, done: state.done, calls: state.calls, searched: state.searched, updated_at: new Date().toISOString() };
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?day_key=eq.${todayKey}`, {
-        method: 'GET',
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-      });
-      const existing = await res.json();
-      if (existing && existing.length > 0) {
-        await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?day_key=eq.${todayKey}`, {
-          method: 'PATCH',
-          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-          body: JSON.stringify(payload)
-        });
-      } else {
-        await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
-          method: 'POST',
-          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-          body: JSON.stringify(payload)
-        });
-      }
+      await apiUpsert({ day_key: todayKey, done: state.done, calls: state.calls, searched: state.searched, notes: state.notes });
+      const idx = historyData.findIndex(d => d.day_key === todayKey);
+      if (idx >= 0) historyData[idx] = { day_key: todayKey, done: state.done, calls: state.calls, notes: state.notes };
+      else historyData.push({ day_key: todayKey, done: state.done, calls: state.calls, notes: state.notes });
       setStatus('✓ Gespeichert', 'saved');
       setTimeout(() => setStatus('', ''), 3000);
-    } catch(e) {
-      setStatus('Fehler beim Speichern', '');
-    }
+    } catch(e) { setStatus('Fehler', ''); }
   }
 
-  function scheduleSave() {
-    clearTimeout(saveTimeout);
-    saveTimeout = setTimeout(saveToSupabase, 800);
+  function scheduleSave() { clearTimeout(saveTimeout); saveTimeout = setTimeout(saveToSupabase, 800); }
+
+  function scheduleNotesSave() {
+    state.notes = document.getElementById('todayNotes').value;
+    clearTimeout(notesSaveTimeout);
+    notesSaveTimeout = setTimeout(saveToSupabase, 1500);
   }
 
   function setStatus(msg, cls) {
@@ -278,17 +372,12 @@
     el.className = 'save-status ' + cls;
   }
 
-  function toggleTask(id) {
-    state.done[id] = !state.done[id];
-    scheduleSave();
-    renderAll();
-  }
+  function toggleTask(id) { state.done[id] = !state.done[id]; scheduleSave(); renderAll(); }
 
   function changeCounter(delta) {
     state.calls = Math.max(0, (state.calls || 0) + delta);
     state.done['calls'] = state.calls >= CALL_TARGET;
-    scheduleSave();
-    renderAll();
+    scheduleSave(); renderAll();
   }
 
   function searchBranche(query, id) {
@@ -300,10 +389,98 @@
 
   function resetDay() {
     if (confirm('Tag zurücksetzen?')) {
-      state = { day_key: todayKey, done: {}, calls: 0, searched: [] };
-      saveToSupabase();
-      renderAll();
+      state = { day_key: todayKey, done: {}, calls: 0, searched: [], notes: '' };
+      document.getElementById('todayNotes').value = '';
+      saveToSupabase(); renderAll();
     }
+  }
+
+  function getDayPct(dayData) {
+    if (!dayData || !dayData.done) return 0;
+    return Math.round(TASKS.filter(t => dayData.done[t]).length / TASKS.length * 100);
+  }
+
+  // Modal
+  function openDayModal(dayKey) {
+    modalDayKey = dayKey;
+    const data = historyData.find(d => d.day_key === dayKey);
+    const pct = getDayPct(data);
+    const date = new Date(dayKey + 'T12:00:00');
+    const dateStr = date.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+    document.getElementById('modalDate').textContent = dayKey;
+    document.getElementById('modalTitle').textContent = dateStr;
+    document.getElementById('modalProgressFill').style.width = pct + '%';
+    document.getElementById('modalProgressFill').style.background = pct === 100 ? 'var(--green)' : pct > 0 ? '#7ac040' : 'var(--rule)';
+    document.getElementById('modalCalls').textContent = data ? `${data.calls || 0} Calls an diesem Tag` : 'Keine Daten';
+    document.getElementById('modalNotes').value = (data && data.notes) ? data.notes : '';
+
+    const tasksEl = document.getElementById('modalTasks');
+    tasksEl.innerHTML = '';
+    TASKS.forEach(t => {
+      const done = data && data.done && data.done[t];
+      const el = document.createElement('div');
+      el.className = 'modal-task' + (done ? ' done' : '');
+      el.innerHTML = `<div class="modal-task-check">${done ? '✓' : ''}</div><div class="modal-task-name">${TASK_NAMES[t]}</div>`;
+      tasksEl.appendChild(el);
+    });
+
+    document.getElementById('modalOverlay').classList.add('visible');
+  }
+
+  function closeModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModalDirect(); }
+  function closeModalDirect() { document.getElementById('modalOverlay').classList.remove('visible'); modalDayKey = null; }
+
+  function scheduleModalNotesSave() {
+    clearTimeout(modalNotesSaveTimeout);
+    modalNotesSaveTimeout = setTimeout(async () => {
+      if (!modalDayKey) return;
+      const notes = document.getElementById('modalNotes').value;
+      const idx = historyData.findIndex(d => d.day_key === modalDayKey);
+      if (idx >= 0) historyData[idx].notes = notes;
+      const existing = historyData[idx] || {};
+      await apiUpsert({ day_key: modalDayKey, done: existing.done || {}, calls: existing.calls || 0, searched: existing.searched || [], notes });
+    }, 1500);
+  }
+
+  function renderHistory() {
+    const grid = document.getElementById('historyGrid');
+    grid.innerHTML = '';
+    const days = [];
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      days.push(d.toISOString().split('T')[0]);
+    }
+    const firstDay = new Date(days[0]);
+    const padding = (firstDay.getDay() + 6) % 7;
+    for (let i = 0; i < padding; i++) {
+      const empty = document.createElement('div');
+      empty.className = 'history-day empty'; grid.appendChild(empty);
+    }
+    days.forEach(dayKey => {
+      const data = historyData.find(d => d.day_key === dayKey);
+      const pct = getDayPct(data);
+      const isToday = dayKey === todayKey;
+      const dayNum = parseInt(dayKey.split('-')[2]);
+      const el = document.createElement('div');
+      el.className = 'history-day ' + (pct === 0 ? 'no-data' : pct === 100 ? 'complete' : 'partial') + (isToday ? ' today' : '');
+      el.title = dayKey;
+      el.innerHTML = `<div class="history-day-num">${dayNum}</div>${pct > 0 ? `<div class="history-day-pct">${pct}%</div>` : ''}`;
+      el.onclick = () => openDayModal(dayKey);
+      grid.appendChild(el);
+    });
+
+    const completeDays = historyData.filter(d => getDayPct(d) === 100).length;
+    const totalCalls = historyData.reduce((sum, d) => sum + (d.calls || 0), 0);
+    let streak = 0;
+    for (let i = 0; i < days.length; i++) {
+      const data = historyData.find(d => d.day_key === days[days.length - 1 - i]);
+      if (getDayPct(data) === 100) streak++;
+      else break;
+    }
+    document.getElementById('stat-streak').textContent = streak;
+    document.getElementById('stat-complete').textContent = completeDays;
+    document.getElementById('stat-calls').textContent = totalCalls;
   }
 
   function renderAll() {

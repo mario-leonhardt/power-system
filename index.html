@@ -10,21 +10,21 @@
   [data-theme="light"] {
     --bg: #ffffff;
     --bg-card: #ffffff;
-    --bg-warm: #f8f7f4;
-    --ink: #111110;
-    --ink-secondary: #3a3a38;
-    --muted: #6b6b65;
-    --rule: #e2e0da;
-    --accent: #1558a8;
+    --bg-warm: #edeae2;
+    --ink: #0a0a08;
+    --ink-secondary: #1a1a18;
+    --muted: #2a2a24;
+    --rule: #b8b6b0;
+    --accent: #0d4a9a;
     --accent-light: #e8f1fc;
     --accent-mid: #2d7dd2;
-    --green: #2d6a0f;
+    --green: #1e5008;
     --green-light: #e8f5d8;
-    --green-mid: #5a9e30;
-    --orange: #7a3800;
+    --green-mid: #3d7a18;
+    --orange: #6a2800;
     --orange-light: #fef0e0;
     --purple-light: #f5eeff;
-    --purple: #6b21a8;
+    --purple: #5a12a0;
     --shadow: 0 1px 3px rgba(0,0,0,0.08);
     --toggle-bg: #e2e0da;
     --toggle-icon: "🌙";
@@ -160,7 +160,7 @@
   .notes-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
   .notes-textarea { width: 100%; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; color: var(--ink); line-height: 1.7; resize: vertical; min-height: 100px; outline: none; transition: border-color 0.2s; box-shadow: var(--shadow); }
   .notes-textarea:focus { border-color: var(--accent-mid); }
-  .notes-textarea::placeholder { color: var(--rule); }
+  .notes-textarea::placeholder { color: #999890; }
 
   /* Complete banner */
   .complete-banner { display: none; background: var(--green-light); border: 1px solid var(--green-mid); border-radius: 12px; padding: 1.5rem; text-align: center; margin-top: 1.5rem; }
@@ -215,9 +215,11 @@
   .modal-notes-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
   .modal-notes { width: 100%; background: var(--bg-warm); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); line-height: 1.6; min-height: 80px; resize: vertical; outline: none; }
   .modal-notes:focus { border-color: var(--accent-mid); }
+  [data-theme="light"] .notes-textarea::placeholder { color: #888880; }
+  [data-theme="light"] .modal-notes::placeholder { color: #888880; }
 
   /* Footer */
-  .footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rule); display: flex; justify-content: space-between; }
+  .footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; }
 </style>
 </head>
 <body>

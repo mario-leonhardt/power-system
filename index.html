@@ -1,136 +1,228 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Power System — Mario Leonhardt</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #f9f8f5; --ink: #1a1a18; --muted: #6b6b65; --rule: #d3d1c7;
-    --accent: #185fa5; --accent-light: #e6f1fb; --accent-mid: #378add;
-    --green: #3b6d11; --green-light: #eaf3de; --warm: #f1efe8;
-    --orange: #633806; --orange-light: #faeeda;
+  /* ── LIGHT THEME ── */
+  [data-theme="light"] {
+    --bg: #ffffff;
+    --bg-card: #ffffff;
+    --bg-warm: #f8f7f4;
+    --ink: #111110;
+    --ink-secondary: #3a3a38;
+    --muted: #6b6b65;
+    --rule: #e2e0da;
+    --accent: #1558a8;
+    --accent-light: #e8f1fc;
+    --accent-mid: #2d7dd2;
+    --green: #2d6a0f;
+    --green-light: #e8f5d8;
+    --green-mid: #5a9e30;
+    --orange: #7a3800;
+    --orange-light: #fef0e0;
+    --purple-light: #f5eeff;
+    --purple: #6b21a8;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    --toggle-bg: #e2e0da;
+    --toggle-icon: "🌙";
   }
+
+  /* ── DARK THEME ── */
+  [data-theme="dark"] {
+    --bg: #141412;
+    --bg-card: #1e1d1b;
+    --bg-warm: #1a1917;
+    --ink: #f0ede8;
+    --ink-secondary: #c8c4bc;
+    --muted: #888780;
+    --rule: #2e2c28;
+    --accent: #4a9de8;
+    --accent-light: #1a2e45;
+    --accent-mid: #4a9de8;
+    --green: #7ac040;
+    --green-light: #1a2e10;
+    --green-mid: #7ac040;
+    --orange: #e8a050;
+    --orange-light: #2e1e08;
+    --purple-light: #2a1a40;
+    --purple: #b07ee8;
+    --shadow: 0 1px 3px rgba(0,0,0,0.3);
+    --toggle-bg: #2e2c28;
+    --toggle-icon: "☀️";
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; font-weight: 300; background: var(--bg); color: var(--ink); min-height: 100vh; padding: 2rem 1rem 4rem; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+    transition: background 0.2s, color 0.2s;
+  }
+
   .container { max-width: 680px; margin: 0 auto; }
+
+  /* Header */
   .header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid var(--ink); }
   .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; }
-  .title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 400; }
+  .title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 400; color: var(--ink); }
   .title em { font-style: italic; color: var(--accent); }
   .date-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
   .save-status { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; min-height: 16px; }
   .save-status.saved { color: var(--green); }
   .save-status.saving { color: var(--accent); }
+
+  /* Header buttons */
+  .header-btns { display: flex; gap: 8px; align-items: center; margin-top: 4px; }
+
+  /* Theme toggle */
+  .theme-toggle {
+    background: var(--toggle-bg);
+    border: none;
+    border-radius: 20px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+  }
+  .theme-toggle:hover { opacity: 0.85; }
+  .theme-toggle-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+  .reset-btn { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); background: none; border: 0.5px solid var(--rule); padding: 5px 10px; border-radius: 6px; cursor: pointer; }
+  .reset-btn:hover { background: var(--bg-warm); }
+
+  /* Progress */
   .progress-wrap { margin: 1.25rem 0 0; }
-  .progress-bar { height: 3px; background: var(--warm); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+  .progress-bar { height: 4px; background: var(--bg-warm); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
   .progress-fill { height: 100%; background: var(--accent-mid); border-radius: 2px; transition: width 0.4s ease; }
   .progress-text { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.1em; }
-  .tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--rule); }
+
+  /* Tabs */
+  .tabs { display: flex; margin-bottom: 1.5rem; border-bottom: 1px solid var(--rule); }
   .tab { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 16px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; }
   .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
 
-  /* Notes */
-  .notes-wrap { margin-top: 1.5rem; }
-  .notes-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .notes-textarea { width: 100%; background: #fff; border: 0.5px solid var(--rule); border-radius: 10px; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; color: var(--ink); line-height: 1.7; resize: vertical; min-height: 100px; outline: none; transition: border-color 0.2s; }
-  .notes-textarea:focus { border-color: var(--accent-mid); }
-  .notes-textarea::placeholder { color: var(--rule); }
-
-  /* History */
-  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
-  .stat-card { background: #fff; border: 0.5px solid var(--rule); border-radius: 10px; padding: 14px; text-align: center; }
-  .stat-val { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--accent); }
-  .stat-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
-  .history-day-labels { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 8px; }
-  .day-label-h { font-family: 'DM Mono', monospace; font-size: 9px; text-align: center; color: var(--muted); letter-spacing: 0.05em; }
-  .history-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 1rem; }
-  .history-day { aspect-ratio: 1; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; position: relative; transition: transform 0.15s; }
-  .history-day:hover { transform: scale(1.08); }
-  .history-day.empty { background: transparent; cursor: default; pointer-events: none; }
-  .history-day.empty:hover { transform: none; }
-  .history-day.no-data { background: var(--warm); border: 0.5px solid var(--rule); }
-  .history-day.partial { background: #c8e6a0; border: 0.5px solid #a8cc80; }
-  .history-day.complete { background: var(--green); border: 0.5px solid var(--green); }
-  .history-day.today { outline: 2px solid var(--accent); outline-offset: 1px; }
-  .history-day-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
-  .history-day.complete .history-day-num { color: white; }
-  .history-day.partial .history-day-num { color: var(--green); }
-  .history-day-pct { font-size: 9px; color: var(--muted); }
-  .history-day.complete .history-day-pct { color: rgba(255,255,255,0.8); }
-  .history-legend { display: flex; gap: 16px; margin-bottom: 1.5rem; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
-  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
-
-  /* Day detail modal */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; padding: 2rem 1rem; overflow-y: auto; }
-  .modal-overlay.visible { display: flex; align-items: flex-start; justify-content: center; }
-  .modal { background: var(--bg); max-width: 580px; width: 100%; border-radius: 14px; padding: 1.5rem; position: relative; margin: auto; }
-  .modal-close { position: absolute; top: 14px; right: 14px; background: none; border: 0.5px solid var(--rule); border-radius: 6px; width: 28px; height: 28px; cursor: pointer; font-size: 14px; color: var(--muted); display: flex; align-items: center; justify-content: center; }
-  .modal-close:hover { background: var(--warm); }
-  .modal-date { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
-  .modal-title { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 1rem; }
-  .modal-progress { height: 3px; background: var(--warm); border-radius: 2px; margin-bottom: 1rem; overflow: hidden; }
-  .modal-progress-fill { height: 100%; border-radius: 2px; }
-  .modal-tasks { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
-  .modal-task { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #fff; border: 0.5px solid var(--rule); border-radius: 8px; }
-  .modal-task.done { background: var(--green-light); border-color: #b3d48a; }
-  .modal-task-check { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--rule); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
-  .modal-task.done .modal-task-check { background: var(--green); border-color: var(--green); color: white; }
-  .modal-task-name { font-size: 13px; color: var(--ink); }
-  .modal-task.done .modal-task-name { text-decoration: line-through; color: var(--green); }
-  .modal-calls { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); margin-bottom: 1rem; }
-  .modal-notes { width: 100%; background: var(--warm); border: 0.5px solid var(--rule); border-radius: 8px; padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); line-height: 1.6; min-height: 80px; resize: vertical; outline: none; }
-  .modal-notes:focus { border-color: var(--accent-mid); }
-  .modal-notes-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
-
-  /* Tasks */
+  /* Time blocks */
   .time-block { margin-bottom: 1.75rem; }
   .time-header { display: flex; align-items: center; gap: 12px; margin-bottom: 0.75rem; }
-  .time-badge { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; flex-shrink: 0; }
+  .time-badge { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; flex-shrink: 0; font-weight: 400; }
   .badge-morning { background: var(--accent-light); color: var(--accent); }
   .badge-calls { background: var(--orange-light); color: var(--orange); }
   .badge-recreation { background: var(--green-light); color: var(--green); }
   .badge-prospecting { background: #fdf4e3; color: #7a5200; }
-  .badge-mail { background: #f3e8ff; color: #6b21a8; }
-  .badge-evening { background: var(--warm); color: var(--muted); }
-  .time-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; }
+  [data-theme="dark"] .badge-prospecting { background: #2a1e08; color: #e8b870; }
+  .badge-mail { background: var(--purple-light); color: var(--purple); }
+  .badge-evening { background: var(--bg-warm); color: var(--muted); }
+  .time-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; color: var(--ink); }
   .time-subtitle { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .task { background: #fff; border: 0.5px solid var(--rule); border-radius: 10px; padding: 11px 14px; margin-bottom: 7px; display: flex; align-items: flex-start; gap: 11px; cursor: pointer; transition: border-color 0.2s, background 0.2s; user-select: none; }
-  .task:hover { border-color: #888780; }
-  .task.done { background: var(--green-light); border-color: #b3d48a; }
+
+  /* Tasks */
+  .task { background: var(--bg-card); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; margin-bottom: 7px; display: flex; align-items: flex-start; gap: 12px; cursor: pointer; transition: border-color 0.15s, background 0.15s; user-select: none; box-shadow: var(--shadow); }
+  .task:hover { border-color: var(--accent-mid); }
+  .task.done { background: var(--green-light); border-color: var(--green-mid); }
   .task.done .task-title { text-decoration: line-through; color: var(--green); }
-  .task.done .task-desc { color: #7aaa3a; }
+  .task.done .task-desc { color: var(--green-mid); opacity: 0.7; }
   .task-check { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--rule); background: var(--bg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 2px; transition: all 0.2s; font-size: 11px; }
   .task.done .task-check { background: var(--green); border-color: var(--green); color: white; }
   .task-content { flex: 1; }
   .task-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 2px; line-height: 1.4; }
   .task-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* Counter */
   .task-counter { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-  .counter-btn { width: 26px; height: 26px; border-radius: 6px; border: 0.5px solid var(--rule); background: var(--bg); color: var(--ink); font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: inherit; }
-  .counter-btn:hover { background: var(--warm); }
-  .counter-val { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--accent); min-width: 28px; text-align: center; }
+  .counter-btn { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--rule); background: var(--bg); color: var(--ink); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+  .counter-btn:hover { background: var(--bg-warm); }
+  .counter-val { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--accent); min-width: 30px; text-align: center; }
   .counter-target { font-size: 12px; color: var(--muted); }
-  .counter-bar { flex: 1; height: 3px; background: var(--warm); border-radius: 2px; overflow: hidden; }
+  .counter-bar { flex: 1; height: 4px; background: var(--bg-warm); border-radius: 2px; overflow: hidden; }
   .counter-fill { height: 100%; background: var(--accent-mid); border-radius: 2px; transition: width 0.3s; }
+
+  /* Branchen */
   .branchen-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-top: 8px; }
-  .branche-tag { font-size: 11px; color: var(--muted); background: var(--warm); border: 0.5px solid var(--rule); border-radius: 5px; padding: 5px 8px; cursor: pointer; transition: all 0.15s; text-align: center; }
+  .branche-tag { font-size: 11px; color: var(--muted); background: var(--bg-warm); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 10px; cursor: pointer; transition: all 0.15s; text-align: center; }
   .branche-tag:hover, .branche-tag.searched { border-color: var(--accent-mid); color: var(--accent); background: var(--accent-light); }
-  hr { border: none; border-top: 0.5px solid var(--rule); margin: 1.25rem 0; }
-  .complete-banner { display: none; background: var(--green-light); border: 0.5px solid #b3d48a; border-radius: 12px; padding: 1.5rem; text-align: center; margin-top: 1.5rem; }
+
+  hr { border: none; border-top: 1px solid var(--rule); margin: 1.25rem 0; }
+
+  /* Notes */
+  .notes-wrap { margin-top: 1.5rem; }
+  .notes-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .notes-textarea { width: 100%; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; color: var(--ink); line-height: 1.7; resize: vertical; min-height: 100px; outline: none; transition: border-color 0.2s; box-shadow: var(--shadow); }
+  .notes-textarea:focus { border-color: var(--accent-mid); }
+  .notes-textarea::placeholder { color: var(--rule); }
+
+  /* Complete banner */
+  .complete-banner { display: none; background: var(--green-light); border: 1px solid var(--green-mid); border-radius: 12px; padding: 1.5rem; text-align: center; margin-top: 1.5rem; }
   .complete-banner.visible { display: block; }
   .complete-banner .big { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--green); margin-bottom: 6px; }
-  .complete-banner p { font-size: 13px; color: #5a8a25; line-height: 1.6; }
-  .reset-btn { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); background: none; border: 0.5px solid var(--rule); padding: 5px 10px; border-radius: 6px; cursor: pointer; margin-top: 4px; }
-  .reset-btn:hover { background: var(--warm); }
-  .footer { margin-top: 3rem; padding-top: 1rem; border-top: 0.5px solid var(--rule); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rule); display: flex; justify-content: space-between; }
+  .complete-banner p { font-size: 13px; color: var(--green); opacity: 0.8; line-height: 1.6; }
+
+  /* History */
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--rule); border-radius: 10px; padding: 14px; text-align: center; box-shadow: var(--shadow); }
+  .stat-val { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--accent); }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+  .history-day-labels { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 8px; }
+  .day-label-h { font-family: 'DM Mono', monospace; font-size: 9px; text-align: center; color: var(--muted); }
+  .history-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 1rem; }
+  .history-day { aspect-ratio: 1; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; transition: transform 0.15s; }
+  .history-day:hover { transform: scale(1.08); }
+  .history-day.empty { cursor: default; pointer-events: none; }
+  .history-day.no-data { background: var(--bg-warm); border: 1px solid var(--rule); }
+  .history-day.partial { background: #c8e6a0; border: 1px solid #a0c870; }
+  [data-theme="dark"] .history-day.partial { background: #2a4018; border-color: #4a7030; }
+  .history-day.complete { background: var(--green); border: 1px solid var(--green); }
+  .history-day.today { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .history-day-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .history-day.complete .history-day-num { color: white; }
+  .history-day.partial .history-day-num { color: var(--green); }
+  [data-theme="dark"] .history-day.partial .history-day-num { color: #7ac040; }
+  .history-day-pct { font-size: 9px; color: var(--muted); }
+  .history-day.complete .history-day-pct { color: rgba(255,255,255,0.85); }
+  .history-legend { display: flex; gap: 16px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; padding: 2rem 1rem; overflow-y: auto; }
+  .modal-overlay.visible { display: flex; align-items: flex-start; justify-content: center; }
+  .modal { background: var(--bg); max-width: 560px; width: 100%; border-radius: 14px; padding: 1.5rem; position: relative; margin: auto; border: 1px solid var(--rule); }
+  .modal-close { position: absolute; top: 14px; right: 14px; background: var(--bg-warm); border: none; border-radius: 6px; width: 28px; height: 28px; cursor: pointer; font-size: 14px; color: var(--muted); display: flex; align-items: center; justify-content: center; }
+  .modal-close:hover { opacity: 0.7; }
+  .modal-date { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--ink); margin-bottom: 1rem; }
+  .modal-progress { height: 4px; background: var(--bg-warm); border-radius: 2px; margin-bottom: 1rem; overflow: hidden; }
+  .modal-progress-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+  .modal-calls { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 1rem; }
+  .modal-tasks { display: flex; flex-direction: column; gap: 5px; margin-bottom: 1rem; }
+  .modal-task { display: flex; align-items: center; gap: 10px; padding: 7px 12px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 8px; }
+  .modal-task.done { background: var(--green-light); border-color: var(--green-mid); }
+  .modal-task-check { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--rule); display: flex; align-items: center; justify-content: center; font-size: 9px; flex-shrink: 0; }
+  .modal-task.done .modal-task-check { background: var(--green); border-color: var(--green); color: white; }
+  .modal-task-name { font-size: 12px; color: var(--ink); }
+  .modal-task.done .modal-task-name { text-decoration: line-through; color: var(--green); opacity: 0.8; }
+  .modal-notes-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+  .modal-notes { width: 100%; background: var(--bg-warm); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); line-height: 1.6; min-height: 80px; resize: vertical; outline: none; }
+  .modal-notes:focus { border-color: var(--accent-mid); }
+
+  /* Footer */
+  .footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rule); display: flex; justify-content: space-between; }
 </style>
 </head>
 <body>
 <div class="container">
+
   <div class="header">
     <div class="header-top">
       <div>
@@ -138,7 +230,13 @@
         <div class="date-label" id="dateLabel"></div>
         <div class="save-status" id="saveStatus"></div>
       </div>
-      <button class="reset-btn" onclick="resetDay()">↺ Reset</button>
+      <div class="header-btns">
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+          <span id="themeIcon">🌙</span>
+          <span class="theme-toggle-label" id="themeLabel">Dark</span>
+        </button>
+        <button class="reset-btn" onclick="resetDay()">↺ Reset</button>
+      </div>
     </div>
     <div class="progress-wrap">
       <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
@@ -222,7 +320,6 @@
       <div class="task" id="task-abschalten" onclick="toggleTask('abschalten')"><div class="task-check" id="check-abschalten"></div><div class="task-content"><div class="task-title">Bildschirm aus — Tag abgeschlossen</div><div class="task-desc">Kein LinkedIn. Kein E-Mail. Das Unterbewusstsein arbeitet weiter.</div></div></div>
     </div>
 
-    <!-- Notes for today -->
     <div class="notes-wrap">
       <div class="notes-label">Notizen — Gedanken zum Tag</div>
       <textarea class="notes-textarea" id="todayNotes" placeholder="Was hat heute funktioniert? Was nicht? Welche Idee kam?" oninput="scheduleNotesSave()"></textarea>
@@ -241,7 +338,7 @@
       <div class="stat-card"><div class="stat-val" id="stat-complete">—</div><div class="stat-label">Vollständige Tage</div></div>
       <div class="stat-card"><div class="stat-val" id="stat-calls">—</div><div class="stat-label">Calls gesamt</div></div>
     </div>
-    <div class="day-label-h" style="margin-bottom:8px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Letzte 30 Tage — klick auf einen Tag für Details</div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Letzte 30 Tage — klick auf einen Tag für Details</div>
     <div class="history-day-labels">
       <div class="day-label-h">Mo</div><div class="day-label-h">Di</div><div class="day-label-h">Mi</div>
       <div class="day-label-h">Do</div><div class="day-label-h">Fr</div><div class="day-label-h">Sa</div><div class="day-label-h">So</div>
@@ -250,14 +347,14 @@
     <div class="history-legend">
       <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Vollständig</div>
       <div class="legend-item"><div class="legend-dot" style="background:#c8e6a0"></div>Teilweise</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--warm);border:0.5px solid var(--rule)"></div>Keine Daten</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--bg-warm);border:1px solid var(--rule)"></div>Keine Daten</div>
     </div>
   </div>
 
   <div class="footer"><span>Leonhardt Partners</span><span>The Human Content Company</span></div>
 </div>
 
-<!-- DAY DETAIL MODAL -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeModalDirect()">✕</button>
@@ -275,28 +372,68 @@
   const SUPABASE_URL = 'https://jwnlmgtbanebwcwnqyab.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_SjQKmTwHwW0LeCwV5hfdtw_xqhUZnJy';
   const TABLE = 'power_system_days';
+  const PREFS_TABLE = 'user_preferences';
   const TASKS = ['morgenritual','essay','stephen','comedy','calls','mail-mittag','fitness','spaziergang','suche','kommentar','vernetzung','mail-abend','abschalten'];
   const TASK_NAMES = {
-    'morgenritual': 'Morgenritual', 'essay': 'Essay / Post', 'stephen': 'Sir Stephen & Me',
-    'comedy': 'Comedy', 'calls': 'Calls Tagesziel', 'mail-mittag': 'Mails Mittag',
-    'fitness': 'Fitness', 'spaziergang': 'Spaziergang & Essen', 'suche': '2h Suche & Kommentare',
-    'kommentar': '3 Kommentare', 'vernetzung': '5 Vernetzungsanfragen',
-    'mail-abend': 'Mails Abend', 'abschalten': 'Abschalten'
+    'morgenritual':'Morgenritual','essay':'Essay / Post','stephen':'Sir Stephen & Me',
+    'comedy':'Comedy','calls':'Calls Tagesziel','mail-mittag':'Mails Mittag',
+    'fitness':'Fitness','spaziergang':'Spaziergang & Essen','suche':'2h Suche & Kommentare',
+    'kommentar':'3 Kommentare','vernetzung':'5 Vernetzungsanfragen',
+    'mail-abend':'Mails Abend','abschalten':'Abschalten'
   };
   const CALL_TARGET = 10;
   const todayKey = new Date().toISOString().split('T')[0];
 
   let state = { day_key: todayKey, done: {}, calls: 0, searched: [], notes: '' };
   let historyData = [];
-  let saveTimeout = null;
-  let notesSaveTimeout = null;
-  let modalDayKey = null;
-  let modalNotesSaveTimeout = null;
+  let currentTheme = 'light';
+  let saveTimeout = null, notesSaveTimeout = null, modalDayKey = null, modalNotesSaveTimeout = null;
 
   document.getElementById('dateLabel').textContent = new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   if (new Date().getDay() === 1) document.getElementById('essay-desc').textContent = 'Heute ist Montag — Essay-Tag. 800–1.500 Wörter. Ein Standpunkt.';
 
-  loadFromSupabase();
+  init();
+
+  async function init() {
+    await loadPreferences();
+    await loadFromSupabase();
+  }
+
+  async function loadPreferences() {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${PREFS_TABLE}?id=eq.mario&select=theme`, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+      const data = await res.json();
+      if (data && data.length > 0 && data[0].theme) {
+        applyTheme(data[0].theme);
+      }
+    } catch(e) {}
+  }
+
+  async function savePreferences() {
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/${PREFS_TABLE}?id=eq.mario`, {
+        method: 'PATCH',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ theme: currentTheme, updated_at: new Date().toISOString() })
+      });
+    } catch(e) {}
+  }
+
+  function applyTheme(theme) {
+    currentTheme = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    const isDark = theme === 'dark';
+    document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
+    document.getElementById('themeLabel').textContent = isDark ? 'Hell' : 'Dark';
+  }
+
+  function toggleTheme() {
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    applyTheme(newTheme);
+    savePreferences();
+  }
 
   function switchTab(tab) {
     document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', ['today','history'][i] === tab));
@@ -305,19 +442,19 @@
     if (tab === 'history') renderHistory();
   }
 
-  async function apiGet(filter) {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?${filter}&select=*`, {
+  async function apiGet(table, filter) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${filter}&select=*`, {
       headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
     });
     return res.json();
   }
 
-  async function apiUpsert(payload) {
-    const check = await apiGet(`day_key=eq.${payload.day_key}`);
+  async function apiUpsert(table, payload, key) {
+    const check = await apiGet(table, `${key}=eq.${payload[key]}`);
     const method = (check && check.length > 0) ? 'PATCH' : 'POST';
     const url = method === 'PATCH'
-      ? `${SUPABASE_URL}/rest/v1/${TABLE}?day_key=eq.${payload.day_key}`
-      : `${SUPABASE_URL}/rest/v1/${TABLE}`;
+      ? `${SUPABASE_URL}/rest/v1/${table}?${key}=eq.${payload[key]}`
+      : `${SUPABASE_URL}/rest/v1/${table}`;
     await fetch(url, {
       method,
       headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
@@ -328,14 +465,12 @@
   async function loadFromSupabase() {
     setStatus('Lade...', '');
     try {
-      const data = await apiGet(`day_key=eq.${todayKey}`);
+      const data = await apiGet(TABLE, `day_key=eq.${todayKey}`);
       if (data && data.length > 0) {
         state = { day_key: todayKey, done: data[0].done || {}, calls: data[0].calls || 0, searched: data[0].searched || [], notes: data[0].notes || '' };
       }
       document.getElementById('todayNotes').value = state.notes || '';
-
-      const thirtyAgo = new Date();
-      thirtyAgo.setDate(thirtyAgo.getDate() - 30);
+      const thirtyAgo = new Date(); thirtyAgo.setDate(thirtyAgo.getDate() - 30);
       const fromKey = thirtyAgo.toISOString().split('T')[0];
       const hRes = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?day_key=gte.${fromKey}&select=day_key,done,calls,notes&order=day_key.asc`, {
         headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
@@ -349,7 +484,7 @@
   async function saveToSupabase() {
     setStatus('Speichert...', 'saving');
     try {
-      await apiUpsert({ day_key: todayKey, done: state.done, calls: state.calls, searched: state.searched, notes: state.notes });
+      await apiUpsert(TABLE, { day_key: todayKey, done: state.done, calls: state.calls, searched: state.searched, notes: state.notes }, 'day_key');
       const idx = historyData.findIndex(d => d.day_key === todayKey);
       if (idx >= 0) historyData[idx] = { day_key: todayKey, done: state.done, calls: state.calls, notes: state.notes };
       else historyData.push({ day_key: todayKey, done: state.done, calls: state.calls, notes: state.notes });
@@ -359,62 +494,26 @@
   }
 
   function scheduleSave() { clearTimeout(saveTimeout); saveTimeout = setTimeout(saveToSupabase, 800); }
-
-  function scheduleNotesSave() {
-    state.notes = document.getElementById('todayNotes').value;
-    clearTimeout(notesSaveTimeout);
-    notesSaveTimeout = setTimeout(saveToSupabase, 1500);
-  }
-
-  function setStatus(msg, cls) {
-    const el = document.getElementById('saveStatus');
-    el.textContent = msg;
-    el.className = 'save-status ' + cls;
-  }
-
+  function scheduleNotesSave() { state.notes = document.getElementById('todayNotes').value; clearTimeout(notesSaveTimeout); notesSaveTimeout = setTimeout(saveToSupabase, 1500); }
+  function setStatus(msg, cls) { const el = document.getElementById('saveStatus'); el.textContent = msg; el.className = 'save-status ' + cls; }
   function toggleTask(id) { state.done[id] = !state.done[id]; scheduleSave(); renderAll(); }
+  function changeCounter(delta) { state.calls = Math.max(0, (state.calls || 0) + delta); state.done['calls'] = state.calls >= CALL_TARGET; scheduleSave(); renderAll(); }
+  function searchBranche(query, id) { if (!state.searched.includes(id)) state.searched.push(id); scheduleSave(); document.getElementById(id).classList.add('searched'); window.open('https://www.linkedin.com/search/results/people/?keywords=' + encodeURIComponent(query), '_blank'); }
+  function resetDay() { if (confirm('Tag zurücksetzen?')) { state = { day_key: todayKey, done: {}, calls: 0, searched: [], notes: '' }; document.getElementById('todayNotes').value = ''; saveToSupabase(); renderAll(); } }
 
-  function changeCounter(delta) {
-    state.calls = Math.max(0, (state.calls || 0) + delta);
-    state.done['calls'] = state.calls >= CALL_TARGET;
-    scheduleSave(); renderAll();
-  }
+  function getDayPct(d) { if (!d || !d.done) return 0; return Math.round(TASKS.filter(t => d.done[t]).length / TASKS.length * 100); }
 
-  function searchBranche(query, id) {
-    if (!state.searched.includes(id)) state.searched.push(id);
-    scheduleSave();
-    document.getElementById(id).classList.add('searched');
-    window.open('https://www.linkedin.com/search/results/people/?keywords=' + encodeURIComponent(query), '_blank');
-  }
-
-  function resetDay() {
-    if (confirm('Tag zurücksetzen?')) {
-      state = { day_key: todayKey, done: {}, calls: 0, searched: [], notes: '' };
-      document.getElementById('todayNotes').value = '';
-      saveToSupabase(); renderAll();
-    }
-  }
-
-  function getDayPct(dayData) {
-    if (!dayData || !dayData.done) return 0;
-    return Math.round(TASKS.filter(t => dayData.done[t]).length / TASKS.length * 100);
-  }
-
-  // Modal
   function openDayModal(dayKey) {
     modalDayKey = dayKey;
     const data = historyData.find(d => d.day_key === dayKey);
     const pct = getDayPct(data);
     const date = new Date(dayKey + 'T12:00:00');
-    const dateStr = date.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-
     document.getElementById('modalDate').textContent = dayKey;
-    document.getElementById('modalTitle').textContent = dateStr;
+    document.getElementById('modalTitle').textContent = date.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     document.getElementById('modalProgressFill').style.width = pct + '%';
-    document.getElementById('modalProgressFill').style.background = pct === 100 ? 'var(--green)' : pct > 0 ? '#7ac040' : 'var(--rule)';
-    document.getElementById('modalCalls').textContent = data ? `${data.calls || 0} Calls an diesem Tag` : 'Keine Daten';
+    document.getElementById('modalProgressFill').style.background = pct === 100 ? 'var(--green)' : pct > 0 ? 'var(--accent-mid)' : 'var(--rule)';
+    document.getElementById('modalCalls').textContent = data ? `${data.calls || 0} Calls` : 'Keine Daten';
     document.getElementById('modalNotes').value = (data && data.notes) ? data.notes : '';
-
     const tasksEl = document.getElementById('modalTasks');
     tasksEl.innerHTML = '';
     TASKS.forEach(t => {
@@ -424,7 +523,6 @@
       el.innerHTML = `<div class="modal-task-check">${done ? '✓' : ''}</div><div class="modal-task-name">${TASK_NAMES[t]}</div>`;
       tasksEl.appendChild(el);
     });
-
     document.getElementById('modalOverlay').classList.add('visible');
   }
 
@@ -439,7 +537,7 @@
       const idx = historyData.findIndex(d => d.day_key === modalDayKey);
       if (idx >= 0) historyData[idx].notes = notes;
       const existing = historyData[idx] || {};
-      await apiUpsert({ day_key: modalDayKey, done: existing.done || {}, calls: existing.calls || 0, searched: existing.searched || [], notes });
+      await apiUpsert(TABLE, { day_key: modalDayKey, done: existing.done || {}, calls: existing.calls || 0, searched: existing.searched || [], notes }, 'day_key');
     }, 1500);
   }
 
@@ -447,40 +545,23 @@
     const grid = document.getElementById('historyGrid');
     grid.innerHTML = '';
     const days = [];
-    for (let i = 29; i >= 0; i--) {
-      const d = new Date(); d.setDate(d.getDate() - i);
-      days.push(d.toISOString().split('T')[0]);
-    }
-    const firstDay = new Date(days[0]);
-    const padding = (firstDay.getDay() + 6) % 7;
-    for (let i = 0; i < padding; i++) {
-      const empty = document.createElement('div');
-      empty.className = 'history-day empty'; grid.appendChild(empty);
-    }
+    for (let i = 29; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); days.push(d.toISOString().split('T')[0]); }
+    const padding = (new Date(days[0]).getDay() + 6) % 7;
+    for (let i = 0; i < padding; i++) { const e = document.createElement('div'); e.className = 'history-day empty'; grid.appendChild(e); }
     days.forEach(dayKey => {
       const data = historyData.find(d => d.day_key === dayKey);
       const pct = getDayPct(data);
-      const isToday = dayKey === todayKey;
-      const dayNum = parseInt(dayKey.split('-')[2]);
       const el = document.createElement('div');
-      el.className = 'history-day ' + (pct === 0 ? 'no-data' : pct === 100 ? 'complete' : 'partial') + (isToday ? ' today' : '');
-      el.title = dayKey;
-      el.innerHTML = `<div class="history-day-num">${dayNum}</div>${pct > 0 ? `<div class="history-day-pct">${pct}%</div>` : ''}`;
+      el.className = 'history-day ' + (pct === 0 ? 'no-data' : pct === 100 ? 'complete' : 'partial') + (dayKey === todayKey ? ' today' : '');
+      el.innerHTML = `<div class="history-day-num">${parseInt(dayKey.split('-')[2])}</div>${pct > 0 ? `<div class="history-day-pct">${pct}%</div>` : ''}`;
       el.onclick = () => openDayModal(dayKey);
       grid.appendChild(el);
     });
-
-    const completeDays = historyData.filter(d => getDayPct(d) === 100).length;
-    const totalCalls = historyData.reduce((sum, d) => sum + (d.calls || 0), 0);
+    document.getElementById('stat-complete').textContent = historyData.filter(d => getDayPct(d) === 100).length;
+    document.getElementById('stat-calls').textContent = historyData.reduce((s, d) => s + (d.calls || 0), 0);
     let streak = 0;
-    for (let i = 0; i < days.length; i++) {
-      const data = historyData.find(d => d.day_key === days[days.length - 1 - i]);
-      if (getDayPct(data) === 100) streak++;
-      else break;
-    }
+    for (let i = 0; i < days.length; i++) { const d = historyData.find(x => x.day_key === days[days.length - 1 - i]); if (getDayPct(d) === 100) streak++; else break; }
     document.getElementById('stat-streak').textContent = streak;
-    document.getElementById('stat-complete').textContent = completeDays;
-    document.getElementById('stat-calls').textContent = totalCalls;
   }
 
   function renderAll() {
